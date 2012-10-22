@@ -1,7 +1,7 @@
 module Tablegrid
   
   module ActionController
-     #extend ActiveSupport::Concern
+     extend ActiveSupport::Concern
 
      included do
        helper        HelperMethods
