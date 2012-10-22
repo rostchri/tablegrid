@@ -18,7 +18,7 @@ module Tablegrid
 
   class Configuration
     include ActiveSupport::Configurable
-    config_accessor :actions
+    config_accessor :actions, :table_class, :heading_class, :th_class, :tr_class, :td_class, :numeric_td_class, :string_td_class, :date_td_class, :even_odd, :paginator_pos, :i18n
 
     # def param_name
     #   config.param_name.respond_to?(:call) ? config.param_name.call : config.param_name
