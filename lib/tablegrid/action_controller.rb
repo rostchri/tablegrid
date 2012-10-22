@@ -76,7 +76,7 @@ module Tablegrid
                  haml_tag :thead do
 
                    haml_tag :tr, { :id => options[:heading_id], :class => [options[:heading_class], options[:tr_class]].join(' ') } do
-                     haml_tag :th, { :class => options[:td_class]} do
+                     haml_tag :th, { :class => options[:th_class]} do
                         haml_concat t("actions") 
                      end if show_action_links && options[:actions] == :left
                      # TODO: sort-order-links
@@ -84,18 +84,18 @@ module Tablegrid
                        if (options[:col_visible].nil?   ||  options[:col_visible].call(col.to_sym)) &&
                           (options[:col_invisible].nil? || !options[:col_invisible].call(col.to_sym))   
                          unless options[:objects_class] && options[:i18n]
-                           haml_tag :th, { :class => options[:td_class]} do 
+                           haml_tag :th, { :class => options[:th_class]} do 
                              haml_concat col.to_s.capitalize.humanize 
                            end
                          else
-                           haml_tag :th, { :class => options[:td_class]} do 
+                           haml_tag :th, { :class => options[:th_class]} do 
                              haml_concat options[:objects_class].human_attribute_name(col) 
                            end
                          end
                        end
                      end
 
-                     haml_tag :th, { :class => options[:td_class]} do
+                     haml_tag :th, { :class => options[:th_class]} do
                         haml_concat t("actions") 
                      end  if show_action_links && options[:actions] == :right
                    end
