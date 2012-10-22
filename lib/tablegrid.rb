@@ -1,3 +1,4 @@
+require 'kaminari/config'
 require 'tablegrid/action_controller'
 require 'tablegrid/railtie'
 

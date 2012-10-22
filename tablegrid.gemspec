@@ -15,7 +15,9 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails"
+  %w{ activesupport actionpack railties }.each do |gem|
+    s.add_dependency gem, ['>= 3.0.0']
+  end
   s.add_dependency "haml"
   s.add_development_dependency "sqlite3"
 end

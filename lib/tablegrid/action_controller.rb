@@ -35,7 +35,7 @@ module Tablegrid
            :col_visible        => nil,               # Visiblity of columns. Example: 
            :col_invisible      => nil,               # Invisiblity of columns. Example: 
            :display_actions    => true,              # Show action-links or not
-           :actions            => :left,             # Where to show the action-links :left|:right
+           :actions            => Tablegrid.config.actions, # Where to show the action-links :left|:right
            # Any of this will create an 'Actions' heading, the lambdas receive the object, and expect a string
            :show_action        => nil,               # lambda{|object| link_to '', my_path(object)}
            :edit_action        => nil,               # lambda{|object|} 
