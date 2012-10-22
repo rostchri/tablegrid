@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Christian Rost"]
   s.email       = ["chr@baltic-online.de"]
   s.summary     = "Generic helper for table-views."
-  s.description = "Generic helper for table-views."
+  s.description = "Generic helper for table-views. The original idea comes from http://coryodaniel.com/index.php/2011/02/16/hamlburgerhelper-sets-the-table-easily-create-and-display-standard-tables-in-rails/ or http://dzone.com/snippets/hamlburger-helper-easily"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
