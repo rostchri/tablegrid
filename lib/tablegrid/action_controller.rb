@@ -12,34 +12,34 @@ module Tablegrid
      module HelperMethods
        def table_grid(objects, options={})
          options = {
-           :table_class        => 'table table-striped table-bordered table-condensed',     # CSS class name of the table
-           :table_id           => "table_#{objects.first.class.to_s.underscore.pluralize}", # CSS ID of the table
-           :heading_class      => 'table_head',      # CSS class name of the first TR (one containing TH)
-           :heading_id         => "table_head_#{objects.first.class.to_s.underscore.pluralize}", # CSS class for all TH elements
-           :th_class           => 'table_th',        # CSS class for all TH elements
-           :tr_class           => 'table_tr',        # CSS class for all TR elements
-           :td_class           => 'table_td',        # CSS class for all TD elements
-           :even_odd           => false,              # Should even/odd classes be added
-           :format_date        => nil,               # Time formatter (receives date object, expects string). Example: lambda{|datetime| l datetime, :format => :short} 
-           :numeric_td_class   => 'numeric',         # CSS class for any TDs containing a number
-           :date_td_class      => 'date',            # CSS class for any TDs containing something date-like
-           :string_td_class    => 'string',          # CSS class for any TDs containing a string
-           :vertical           => false,             # Orientation
-           :caption            => nil,               # Caption
-           :clickable_path     => nil,               # vertical=false -> lambda{|object|} vertical=true -> lambda{|col|}  row will be clickable via jquery javascript-function and given url 
-           :paginator          => nil,               # Paginator
-           :paginator_pos      => :both,             # Position of Paginator (:botton, :top, :both)
-           :objects_class      => objects.first.class, # Class of objects for i18n-localisation
-           :i18n               => true,              # i18n-localisation
-           :cell_format        => nil,               # Cell-Formater for specific columns. Example: {:col => lambda{|obj,value| link_to value, my_path(obj)}}
-           :col_visible        => nil,               # Visiblity of columns. Example: 
-           :col_invisible      => nil,               # Invisiblity of columns. Example: 
-           :display_actions    => true,              # Show action-links or not
-           :actions            => Tablegrid.config.actions, # Where to show the action-links :left|:right
-           # Any of this will create an 'Actions' heading, the lambdas receive the object, and expect a string
-           :show_action        => nil,               # lambda{|object| link_to '', my_path(object)}
-           :edit_action        => nil,               # lambda{|object|} 
-           :destroy_action     => nil,               # lambda{|object|}
+           :table_class        => Tablegrid.config.table_class,
+           :heading_class      => Tablegrid.config.heading_class,
+           :th_class           => Tablegrid.config.th_class,
+           :tr_class           => Tablegrid.config.tr_class,
+           :td_class           => Tablegrid.config.td_class,
+           :numeric_td_class   => Tablegrid.config.numeric_td_class,
+           :date_td_class      => Tablegrid.config.date_td_class,
+           :string_td_class    => Tablegrid.config.string_td_class,
+           :even_odd           => Tablegrid.config.even_odd,
+           :paginator_pos      => Tablegrid.config.paginator_pos,
+           :actions            => Tablegrid.config.actions,
+           :i18n               => Tablegrid.config.i18n,
+           :table_id           => "table_#{objects.first.class.to_s.underscore.pluralize}",       # CSS ID of the table
+           :heading_id         => "table_head_#{objects.first.class.to_s.underscore.pluralize}",  # CSS class for all TH elements
+           :format_date        => nil,                  # Time formatter (receives date object, expects string). Example: lambda{|datetime| l datetime, :format => :short} 
+           :vertical           => false,                # Orientation
+           :caption            => nil,                  # Caption
+           :clickable_path     => nil,                  # vertical=false -> lambda{|object|} vertical=true -> lambda{|col|}  row will be clickable via jquery javascript-function and given url 
+           :paginator          => nil,                  # Paginator
+           :objects_class      => objects.first.class,  # Class of objects for i18n-localisation
+           :cell_format        => nil,                  # Cell-Formater for specific columns. Example: {:col => lambda{|obj,value| link_to value, my_path(obj)}}
+           :col_visible        => nil,                  # Visiblity of specific columns in lamda-syntax
+           :col_invisible      => nil,                  # Invisiblity of specific columns in lamda-syntax
+           :display_actions    => true,                 # Show action-links or not
+           # Any of this will create an 'Actions' column, the lambdas receive the object, and expect a string
+           :show_action        => nil,                  # lambda{|object| link_to '', my_path(object)}
+           :edit_action        => nil,                  # lambda{|object|} 
+           :destroy_action     => nil,                  # lambda{|object|}
          }.merge(options)
 
          options[:id] = "table-#{rand.to_s.split('.').last}" if !options[:id]
