@@ -218,6 +218,7 @@ module Tablegrid
                haml_tag "div", {:id => "paginator_bottom", :style=>"float: right;"} do
                  haml_concat options[:paginator] unless options[:paginator].nil? || objects.num_pages == 1
                end
+               haml_tag :div, :class => "clearboth"
              end
 
              unless options[:clickable_path].nil?
