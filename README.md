@@ -13,46 +13,41 @@
 * Haml
 
 ## Example:
-* Assuming we have a model named game with some attributes and we want to build a simple table
+* Assuming we have a model named game with some attributes (id, homecompetitor, guestcompetitor, result, created_at, updated_at) and we want to build a simple html-table
 * Content of games_helper.rb:
+
 		module GamesHelper
-    
+		
+			# at first define the colums/attributes which will can be part of the table
 		  def game_cols
 		    cols  = [:id]
-		    cols += [:start_at,:parent_and_name] unless parent? || controller?(:leaguecompetitions) || (action?(:filter) && scope?(:by_competitions))
-		    cols += [:name] if parent? || controller?(:leaguecompetitions) || (action?(:filter) && scope?(:by_competitions))
 		    cols += [:homecompetitor,:guestcompetitor]
-		    cols += [:advance,:gameset]  
+		    cols += [:result]
 		    cols += [:created_at,:updated_at]
 		  end
   
+			# the visibility of some attributes can be limited
 		  def games_col_visible
 		    {:col_visible   => ->(col) { 
-		      role?(:guest,:admin) && [:start_at,:parent_and_name,:parent,:name,:hometeam,:homecompetitor,:guestcompetitor,:guestteam,:advance,:gameset,:winner].include?(col)
+					role?(:masteradmin,:admin) ? true : ![:id,:created_at,:updated_at].include?(col) # users with role :masteradmin or :admin see all columns defined in game_cols, other users will never see id, created_at, updated_at - columns
 		    }}
 		  end
   
+			# define the column-format. homecompetitor, guestcompetitor and result are more complex columns than id, created_at, and update_at and need to be rendered as partials
 		  def games_cell_format
 		    {:cell_format => {
-		                        :parent_and_name => ->(o,v,i) { render(:partial => "competitions/competition_with_parent", :object => o.competition) + (o.name.nil? ? "" : "/ #{o.name}") },
-		                        :parent          => ->(o,v,i) { render :partial => "competitions/competition", :object => o.competition.parent },
-		                        :hometeam        => ->(o,v,i) { render :partial => "teams/team",  :object => o.competition.homecompetitor},
-		                        :homecompetitor  => ->(o,v,i) { ((o.homeassignment.winner ? twitter_image("icon-thumbs-up") : twitter_image("icon-thumbs-down"))  +  render(:partial => "competitors/competitor",  :object => o.homecompetitor)) unless o.homecompetitor.nil?},
-		                        :guestcompetitor => ->(o,v,i) { ((o.guestassignment.winner ? twitter_image("icon-thumbs-up") : twitter_image("icon-thumbs-down")) +  render(:partial => "competitors/competitor",  :object => o.guestcompetitor)) unless o.guestcompetitor.nil?},
-		                        :winner          => ->(o,v,i) { render :partial => "competitors/competitor",  :object => o.winnercompetitor unless o.winnercompetitor.nil?},
-		                        :guestteam       => ->(o,v,i) { render :partial => "teams/team",  :object => o.competition.guestcompetitor},
-		                        :advance         => ->(o,v,i) { render :partial => "games/advance", :locals => {:handicaps=>[o.homeassignment.handicap,o.guestassignment.handicap], :advance => o.advance}},
-		                        :gameset         => ->(o,v,i) { render :partial => "games/gameset", :collection => o.sets },
-		                        }
+		                        :homecompetitor  => ->(o,v,i) { render(:partial => "competitors/competitor",  :object => o.homecompetitor)) unless v.nil?},
+		                        :guestcompetitor => ->(o,v,i) { render(:partial => "competitors/competitor",  :object => v)) unless v.nil?},
+		                        :result          => ->(o,v,i) { render :partial => "result/result", :object => v },
+		                     }
 		      }
 		  end
   
-  
+  		# define games_grid-function which is used to render the actual table for a collection of game-objects using the table_grid-function
 		  def games_grid(objects,paginator=nil)
 		    options = { :row_layout  => game_cols,
 		                :paginator   => paginator,
-		                :id          => params[:by_players].nil? && params[:by_teams].nil? ? "games_index" : "games_filter",
-		                :format_date => lambda{|datetime| l datetime, :format => :short},
+		                :format_date => lambda{|datetime| l datetime, :format => :short}, # use a special date/time format
 		                :clickable_path => ->(obj)  {resource_path(obj) if permitted_to?(:show, obj)},
 		                :edit_action    => ->(obj)  {link_to twitter_image('icon-pencil'), edit_game_path(obj) if permitted_to? :edit},
 		                :destroy_action => ->(obj)  {button_to('', game_path(obj), :method => :delete, :class=>:delete, :confirm => t("Game.delete", :name => obj.name)) if permitted_to? :destroy},
@@ -60,7 +55,7 @@
 		    table_grid(objects, options)
 		  end
   
-  
+  		# define game_grid-function which is used to render the actual table for a single game-object using the table_grid-function in vertical-layout
 		  def game_grid(object)
 		    options = {
 		               :row_layout    => game_cols,
@@ -71,5 +66,12 @@
 		    table_grid([object],options)
 		  end
 		end
-
- 
+* Use the above helper in the index-action
+** Assuming that a InheritedResources-Controller is used (collection = games-objects) 
+** Assuming that kaminari is used for paginate the cllection. 
+** content of index.html.haml:
+	= games_grid(collection,paginate(collection))
+* Use the above helper in the show-action
+** Assuming that a InheritedResources-Controller is used (resource = game-object)
+** Content of show.html.haml:
+	= game_grid(resource)
