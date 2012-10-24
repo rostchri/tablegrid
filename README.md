@@ -59,7 +59,7 @@
 		                :edit_action    => ->(obj)  {link_to twitter_image('icon-pencil'), 
                                                          edit_game_path(obj) if permitted_to? :edit},
 		                :destroy_action => ->(obj)  {button_to('', game_path(obj), :method => :delete, :class=>:delete, 
-                                                           :confirm => t("Game.delete", :name => obj.name)) if permitted_to? :destroy},
+                                                 :confirm => t("Game.delete", :name => obj.name)) if permitted_to? :destroy},
 		              }.merge(games_col_visible).merge(games_cell_format)
 		    table_grid(objects, options)
 		  end
