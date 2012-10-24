@@ -24,8 +24,8 @@ module Tablegrid
            :paginator_pos      => Tablegrid.config.paginator_pos,
            :actions            => Tablegrid.config.actions,
            :i18n               => Tablegrid.config.i18n,
-           :table_id           => "table_#{objects.first.class.to_s.underscore.pluralize}",       # CSS ID of the table
-           :heading_id         => "table_head_#{objects.first.class.to_s.underscore.pluralize}",  # CSS class for all TH elements
+           :table_id           => "tablegrid_#{objects.first.class.to_s.underscore.pluralize}",       # CSS ID of the table
+           :heading_id         => "tablegrid_head_#{objects.first.class.to_s.underscore.pluralize}",  # CSS class for all TH elements
            :format_date        => nil,                  # Time formatter (receives date object, expects string). Example: lambda{|datetime| l datetime, :format => :short} 
            :vertical           => false,                # Orientation
            :caption            => nil,                  # Caption
@@ -42,13 +42,13 @@ module Tablegrid
            :destroy_action     => nil,                  # lambda{|object|}
          }.merge(options)
 
-         options[:id] = "table-#{rand.to_s.split('.').last}" if !options[:id]
+         options[:id] = "tablegrid-#{rand.to_s.split('.').last}" if !options[:id]
 
          return if objects.empty?
 
          if (options[:objects_class])
-           options[:table_id] = "table_#{options[:objects_class].to_s.underscore.pluralize}"
-           options[:heading_id] = "table_head_#{options[:objects_class].to_s.underscore.pluralize}"
+           options[:table_id] = "tablegrid_#{options[:objects_class].to_s.underscore.pluralize}"
+           options[:heading_id] = "tablegrid_head_#{options[:objects_class].to_s.underscore.pluralize}"
          end
 
          # if row_layout are provided use the names in the row_layout, otherwise find all the to_s attributes and select the keys
@@ -58,12 +58,12 @@ module Tablegrid
          show_action_links = options[:display_actions] && (options[:show_action] || options[:edit_action] || options[:destroy_action])
 
          capture_haml do  
-           haml_tag :div, {:id => options[:id]} do
+           haml_tag :div, {:class => "tablegrid", :id => options[:id]} do
              if [:both,:top].include?(options[:paginator_pos])
-               haml_tag :div, {:id => "paginator_top", :style=>"float: right;"} do
+               haml_tag :div, {:class => "tablegrid_paginator_top"} do
                  haml_concat options[:paginator] unless options[:paginator].nil? || objects.num_pages == 1
                end
-               haml_tag :div, :class => "clearboth"
+               haml_tag :div, :class => "tablegrid_paginator_clear"
              end
              haml_tag :table, {:id => options[:table_id], :class => options[:table_class]} do
 
@@ -180,10 +180,10 @@ module Tablegrid
                          td_value = obj.send(col)
                        end
 
-                       haml_tag :tr, {:class => tr_classes.join(' ') }.merge(options[:clickable_path].nil? ? {} : {:rel=> options[:clickable_path].call(col,td_value)}) do
+                       haml_tag :tr, {:class => tr_classes.join(' ') }.merge(options[:clickable_path].nil? ? {} : {:rel=> options[:clickable_path].call(col,obj)}) do
                          # Column headings  
                          heading_classes = [options[:heading_class], options[:th_class]]
-                         heading_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,td_value).nil? || options[:clickable_path].call(col,td_value).empty?
+                         heading_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,obj).nil? || options[:clickable_path].call(col,obj).empty?
                          unless options[:objects_class] && options[:i18n]
                            haml_tag :th, { :class => heading_classes.join(' ')} do
                              haml_concat col.to_s.capitalize.humanize 
@@ -194,7 +194,7 @@ module Tablegrid
                            end
                          end
                          td_classes  = [options[:td_class], col]
-                         td_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,td_value).nil? || options[:clickable_path].call(col,td_value).empty?
+                         td_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,obj).nil? || options[:clickable_path].call(col,obj).empty?
                          td_classes  << ((idx + 1).odd? ? 'odd' : 'even') if options[:even_odd]
                          case td_value.class.to_s
                          when "String"
@@ -215,25 +215,25 @@ module Tablegrid
                end
              end #end haml_tag :table
              if [:both,:bottom].include?(options[:paginator_pos])
-               haml_tag "div", {:id => "paginator_bottom", :style=>"float: right;"} do
+               haml_tag "div", {:class => "tablegrid_paginator_bottom"} do
                  haml_concat options[:paginator] unless options[:paginator].nil? || objects.num_pages == 1
                end
-               haml_tag :div, :class => "clearboth"
+               haml_tag :div, :class => "tablegrid_paginator_clear"
              end
 
-             unless options[:clickable_path].nil?
-               haml_tag(:script) do
-                 javascript = <<-EOF
-//<![CDATA[
-(function($){
- $('th.clickable').click(function(){window.location = $(this).closest('tr').attr('rel');})
- $('td.clickable').click(function(){window.location = $(this).closest('tr').attr('rel');})
-})(jQuery);
-//]]>
-EOF
-                 haml_concat(javascript)
-               end
-             end
+#              unless options[:clickable_path].nil?
+#                haml_tag(:script) do
+#                  javascript = <<-EOF
+# //<![CDATA[
+# (function($){
+#  $('th.tablegrid_th.clickable').click(function(){window.location = $(this).closest('tr').attr('rel');})
+#  $('td.tablegrid_td.clickable').click(function(){window.location = $(this).closest('tr').attr('rel');})
+# })(jQuery);
+# //]]>
+# EOF
+#                  haml_concat(javascript)
+#                end
+#              end
            end
          end #end capture_haml
        end #end def display_grid

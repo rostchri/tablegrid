@@ -29,10 +29,10 @@ module Tablegrid
   configure do |config|
     config.actions          = :left
     config.table_class      = ['table', 'table-striped', 'table-bordered', 'table-condensed']   # best used with twitter-bootstrap css framework
-    config.heading_class    = 'table_head'                                                      # CSS class name of the first TR (one containing TH)
-    config.th_class         = 'table_th'                                                        # CSS class for all TH elements
-    config.tr_class         = 'table_tr'                                                        # CSS class for all TR elements
-    config.td_class         = 'table_td'                                                        # CSS class for all TD elements
+    config.heading_class    = 'tablegrid_head'                                                  # CSS class name of the first TR (one containing TH)
+    config.th_class         = 'tablegrid_th'                                                    # CSS class for all TH elements
+    config.tr_class         = 'tablegrid_tr'                                                    # CSS class for all TR elements
+    config.td_class         = 'tablegrid_td'                                                    # CSS class for all TD elements
     config.numeric_td_class = 'numeric'                                                         # CSS class for any TDs containing a number
     config.string_td_class  = 'string'                                                          # CSS class for any TDs containing a string
     config.date_td_class    = 'date'                                                            # CSS class for any TDs containing a date

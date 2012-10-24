@@ -1,0 +1,14 @@
+// float pagination to the right
+.tablegrid .tablegrid_paginator_top,
+.tablegrid .tablegrid_paginator_bottom {
+	float: right;
+}
+
+.tablegrid .tablegrid_paginator_clear {
+	clear: both;
+}
+
+// no line-break for action-columns
+td.tablegrid_td.actions {
+	white-space: nowrap;
+}
