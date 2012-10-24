@@ -19,5 +19,7 @@ Gem::Specification.new do |s|
     s.add_dependency gem, ['>= 3.0.0']
   end
   s.add_dependency "haml"
-  s.add_development_dependency "sqlite3"
+  %w{ activerecord actionmailer sqlite3 }.each do |gem|
+    s.add_development_dependency gem
+  end
 end
