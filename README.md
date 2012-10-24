@@ -57,9 +57,9 @@
 		                :format_date => lambda{|datetime| l datetime, :format => :short}, # use a special date/time format
 		                :clickable_path => ->(obj)  {resource_path(obj) if permitted_to?(:show, obj)},
 		                :edit_action    => ->(obj)  {link_to twitter_image('icon-pencil'), 
-																												 edit_game_path(obj) if permitted_to? :edit},
+                                                         edit_game_path(obj) if permitted_to? :edit},
 		                :destroy_action => ->(obj)  {button_to('', game_path(obj), :method => :delete, :class=>:delete, 
-																													 :confirm => t("Game.delete", :name => obj.name)) if permitted_to? :destroy},
+                                                           :confirm => t("Game.delete", :name => obj.name)) if permitted_to? :destroy},
 		              }.merge(games_col_visible).merge(games_cell_format)
 		    table_grid(objects, options)
 		  end
@@ -80,5 +80,5 @@
 	Assuming that the Game-Controller is based on InheritedResources (collection = games-objects) and that kaminari is used for pagination.
 	content of index.html.haml: `= games_grid(collection,paginate(collection))`
 * Use the above helper in the show-action:
-	Assuming that a InheritedResources-Controller is used (resource = game-object)
+	Assuming that the Game-Controller is based on InheritedResources (resource = game-object)
 	Content of show.html.haml: `= game_grid(resource)`
