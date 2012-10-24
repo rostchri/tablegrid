@@ -19,12 +19,12 @@
 		module GamesHelper
 		
 			# at first define the colums/attributes which will can be part of the table
-		  def game_cols
-		    cols  = [:id]
-		    cols += [:homecompetitor,:guestcompetitor]
-		    cols += [:result]
-		    cols += [:created_at,:updated_at]
-		  end
+			def game_cols
+				cols  = [:id]
+				cols += [:homecompetitor,:guestcompetitor]
+				cols += [:result]
+				cols += [:created_at,:updated_at]
+			end
   
 			# the visibility of some attributes can be limited
 		  def games_col_visible
@@ -49,7 +49,7 @@
 		    }
 		  end
   
-  		# define games_grid-function which is used to render the actual table for a 
+			# define games_grid-function which is used to render the actual table for a 
 			# collection of game-objects using the table_grid-function
 		  def games_grid(objects,paginator=nil)
 		    options = { :row_layout  => game_cols,
