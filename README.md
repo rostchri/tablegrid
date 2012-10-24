@@ -35,20 +35,22 @@
 		    }}
 		  end
   
-			# define the column-format. homecompetitor, guestcompetitor and result are more complex columns than id, created_at, and update_at and need to be rendered as partials
+			# define the column-format. homecompetitor, guestcompetitor and result are more complex columns than id, 
+			# created_at, and update_at and need to be rendered as partials
 		  def games_cell_format
 		    {:cell_format => {
 		       :homecompetitor  => ->(o,v,i) { render(:partial => "competitors/competitor",  
-																									:object => o.homecompetitor)) unless v.nil?},
+                                                  :object => o.homecompetitor)) unless v.nil?},
 		       :guestcompetitor => ->(o,v,i) { render(:partial => "competitors/competitor",  
-																									:object => v)) unless v.nil?},
+                                                  :object => v)) unless v.nil?},
 		       :result          => ->(o,v,i) { render :partial => "result/result", 
-																									:object => v },
+                                                  :object => v },
 		      }
 		    }
 		  end
   
-  		# define games_grid-function which is used to render the actual table for a collection of game-objects using the table_grid-function
+  		# define games_grid-function which is used to render the actual table for a 
+      # collection of game-objects using the table_grid-function
 		  def games_grid(objects,paginator=nil)
 		    options = { :row_layout  => game_cols,
 		                :paginator   => paginator,
@@ -62,7 +64,8 @@
 		    table_grid(objects, options)
 		  end
   
-  		# define game_grid-function which is used to render the actual table for a single game-object using the table_grid-function in vertical-layout
+  		# define game_grid-function which is used to render the actual table 
+      # for a single game-object using the table_grid-function in vertical-layout
 		  def game_grid(object)
 		    options = {
 		               :row_layout    => game_cols,
@@ -73,10 +76,9 @@
 		    table_grid([object],options)
 		  end
 		end
-* Use the above helper in the index-action
-	Assuming that a InheritedResources-Controller is used (collection = games-objects) 
-	Assuming that kaminari is used for paginate the cllection. 
+* Use the above helper in the index-action:
+	Assuming that the Game-Controller is based on InheritedResources (collection = games-objects) and that kaminari is used for pagination.
 	content of index.html.haml: `= games_grid(collection,paginate(collection))`
-* Use the above helper in the show-action
+* Use the above helper in the show-action:
 	Assuming that a InheritedResources-Controller is used (resource = game-object)
 	Content of show.html.haml: `= game_grid(resource)`
