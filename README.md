@@ -29,18 +29,23 @@
 			# the visibility of some attributes can be limited
 		  def games_col_visible
 		    {:col_visible   => ->(col) { 
-					role?(:masteradmin,:admin) ? true : ![:id,:created_at,:updated_at].include?(col) # users with role :masteradmin or :admin see all columns defined in game_cols, other users will never see id, created_at, updated_at - columns
+					# users with role :masteradmin or :admin see all columns defined in game_cols, 
+					# other users will never see id, created_at, updated_at - columns
+					role?(:masteradmin,:admin) ? true : ![:id,:created_at,:updated_at].include?(col) 
 		    }}
 		  end
   
 			# define the column-format. homecompetitor, guestcompetitor and result are more complex columns than id, created_at, and update_at and need to be rendered as partials
 		  def games_cell_format
 		    {:cell_format => {
-		                        :homecompetitor  => ->(o,v,i) { render(:partial => "competitors/competitor",  :object => o.homecompetitor)) unless v.nil?},
-		                        :guestcompetitor => ->(o,v,i) { render(:partial => "competitors/competitor",  :object => v)) unless v.nil?},
-		                        :result          => ->(o,v,i) { render :partial => "result/result", :object => v },
-		                     }
+		       :homecompetitor  => ->(o,v,i) { render(:partial => "competitors/competitor",  
+																									:object => o.homecompetitor)) unless v.nil?},
+		       :guestcompetitor => ->(o,v,i) { render(:partial => "competitors/competitor",  
+																									:object => v)) unless v.nil?},
+		       :result          => ->(o,v,i) { render :partial => "result/result", 
+																									:object => v },
 		      }
+		    }
 		  end
   
   		# define games_grid-function which is used to render the actual table for a collection of game-objects using the table_grid-function
@@ -49,8 +54,10 @@
 		                :paginator   => paginator,
 		                :format_date => lambda{|datetime| l datetime, :format => :short}, # use a special date/time format
 		                :clickable_path => ->(obj)  {resource_path(obj) if permitted_to?(:show, obj)},
-		                :edit_action    => ->(obj)  {link_to twitter_image('icon-pencil'), edit_game_path(obj) if permitted_to? :edit},
-		                :destroy_action => ->(obj)  {button_to('', game_path(obj), :method => :delete, :class=>:delete, :confirm => t("Game.delete", :name => obj.name)) if permitted_to? :destroy},
+		                :edit_action    => ->(obj)  {link_to twitter_image('icon-pencil'), 
+																												 edit_game_path(obj) if permitted_to? :edit},
+		                :destroy_action => ->(obj)  {button_to('', game_path(obj), :method => :delete, :class=>:delete, 
+																													 :confirm => t("Game.delete", :name => obj.name)) if permitted_to? :destroy},
 		              }.merge(games_col_visible).merge(games_cell_format)
 		    table_grid(objects, options)
 		  end
@@ -67,11 +74,9 @@
 		  end
 		end
 * Use the above helper in the index-action
-** Assuming that a InheritedResources-Controller is used (collection = games-objects) 
-** Assuming that kaminari is used for paginate the cllection. 
-** content of index.html.haml:
-	= games_grid(collection,paginate(collection))
+	Assuming that a InheritedResources-Controller is used (collection = games-objects) 
+	Assuming that kaminari is used for paginate the cllection. 
+	content of index.html.haml: `= games_grid(collection,paginate(collection))`
 * Use the above helper in the show-action
-** Assuming that a InheritedResources-Controller is used (resource = game-object)
-** Content of show.html.haml:
-	= game_grid(resource)
+	Assuming that a InheritedResources-Controller is used (resource = game-object)
+	Content of show.html.haml: `= game_grid(resource)`
