@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = "Generic helper for table-grid views."
   s.description = "Generic helper for table-grid views. The original idea comes from http://coryodaniel.com/index.php/2011/02/16/hamlburgerhelper-sets-the-table-easily-create-and-display-standard-tables-in-rails/ or http://dzone.com/snippets/hamlburger-helper-easily"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   %w{ activesupport actionpack railties }.each do |gem|
