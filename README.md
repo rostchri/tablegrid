@@ -50,7 +50,7 @@
 		  end
   
   		# define games_grid-function which is used to render the actual table for a 
-      # collection of game-objects using the table_grid-function
+			# collection of game-objects using the table_grid-function
 		  def games_grid(objects,paginator=nil)
 		    options = { :row_layout  => game_cols,
 		                :paginator   => paginator,
@@ -65,7 +65,7 @@
 		  end
   
   		# define game_grid-function which is used to render the actual table 
-      # for a single game-object using the table_grid-function in vertical-layout
+			# for a single game-object using the table_grid-function in vertical-layout
 		  def game_grid(object)
 		    options = {
 		               :row_layout    => game_cols,
