@@ -14,7 +14,7 @@
 
 ## Example:
 * Assuming we have a model named game with some attributes and we want to build a simple table
-* Content of games_helper.rb:
+* Content of games_helper.rb:`
 	module GamesHelper
     
 	  def game_cols
@@ -70,6 +70,6 @@
 	              }.merge(games_col_visible).merge(games_cell_format)
 	    table_grid([object],options)
 	  end
-	end
+	end`
 
  
