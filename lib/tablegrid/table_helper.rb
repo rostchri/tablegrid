@@ -3,7 +3,7 @@ require 'active_support/core_ext' # needed for reverse_merge
 module TableHelper
 
   class Table
-    include Haml::Helpers
+    #include Haml::Helpers
     
     attr_accessor :options, :id, :viewcontext, :objects
 
@@ -91,7 +91,7 @@ module TableHelper
                viewcontext.haml_tag :thead do
                  viewcontext.haml_tag :tr, { :id => options[:heading_id], :class => [options[:heading_class], options[:tr_class]].join(' ') } do
                    viewcontext.haml_tag :th, { :class => options[:th_class]} do
-                      viewcontext. haml_concat t("actions") 
+                      viewcontext. haml_concat I18n.t("actions") 
                    end if show_action_links && options[:actions] == :left
                    # TODO: sort-order-links
                    columns.each do |col|
@@ -109,7 +109,7 @@ module TableHelper
                      end
                    end
                    viewcontext.haml_tag :th, { :class => options[:th_class]} do
-                      viewcontext. haml_concat t("actions") 
+                      viewcontext. haml_concat I18n.t("actions") 
                    end  if show_action_links && options[:actions] == :right
                  end
                end

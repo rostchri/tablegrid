@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tablegrid (0.0.12)
+    tablegrid (0.0.14)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
       haml
