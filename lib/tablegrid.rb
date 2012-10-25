@@ -1,4 +1,5 @@
 require 'tablegrid/config'
+require 'tablegrid/table_helper'
 require 'tablegrid/action_controller'
 require 'tablegrid/railtie'
 
