@@ -255,7 +255,7 @@ module TableHelper
 
   def table_grid(objects,options={}, &block)
     table = Table.new(objects,options.merge!({:viewcontext => self}),&block)
-    puts table
+    #puts table
     table.render_haml
   end
   
