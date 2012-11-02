@@ -4,11 +4,19 @@
 	float: right;
 }
 
-.tablegrid .tablegrid_paginator_clear {
+.tablegrid .tablegrid_paginator_clear,
+.tablegrid .tableclear {
 	clear: both;
 }
 
 // no line-break for action-columns
 td.tablegrid_td.actions {
 	white-space: nowrap;
+}
+
+
+table.vtable {
+	td {
+		padding: 4px 5px;
+	}
 }

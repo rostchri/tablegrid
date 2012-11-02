@@ -1,0 +1,73 @@
+%div{:class => "tablegrid", :id => options[:id]}
+
+	- if [:both,:top].include?(options[:paginator_pos]) && !options[:paginator].nil? && objects.num_pages != 1
+		.tablegrid_paginator_clear
+		.tablegrid_paginator_top
+			= options[:paginator]
+		.tablegrid_paginator_clear
+		
+	%table{:class => options[:table_class], :id => options[:table_id]}
+		- unless options[:caption].nil?
+			%caption
+				= options[:caption]
+		%thead
+			%tr{:class => [options[:tr_class], options[:heading_class]], :id => options[:heading_id]}
+		
+				- if show_action_links && options[:actions] == :left
+					%th{:class => options[:th_class]}= I18n.t("actions") 
+				
+				- columns.each do |col|
+					- if (options[:col_visible].nil? || options[:col_visible].call(col.to_sym)) && (options[:col_invisible].nil? || !options[:col_invisible].call(col.to_sym))
+						%th{:class => options[:th_class]}= !options[:i18n] || options[:objects_class].nil? ? col.to_s.capitalize.humanize : options[:objects_class].human_attribute_name(col) 
+
+				- if show_action_links && options[:actions] == :right
+					%th{:class => options[:th_class]}= I18n.t("actions")
+					
+		%tbody{:id => "tbody_#{options[:table_id]}"}
+			- objects.each_with_index do |obj,idx|
+				- tr_classes = [ options[:tr_class] ]
+				- tr_classes << ((idx + 1).odd? ? 'odd' : 'even') if options[:even_odd]
+				- rel = options[:clickable_path].call(obj) unless options[:clickable_path].nil?
+				%tr{:class => tr_classes, :id => "#{obj.class.to_s.underscore}_#{obj.id}", :rel => rel}
+					- if show_action_links && options[:actions] == :left
+						%td{:class => "#{options[:td_class]} actions"}
+							- [:show_action, :edit_action, :destroy_action].each do |obj_action|
+								= options[obj_action].call(obj) if options[obj_action]
+								
+					- columns.each do |col|
+						- if (options[:col_visible].nil? || options[:col_visible].call(col.to_sym)) && (options[:col_invisible].nil? || !options[:col_invisible].call(col.to_sym))
+							- td_classes  = [options[:td_class], col]
+							- td_classes  << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(obj).nil?
+							-	td_value = obj.respond_to?(col) ? obj.send(col) : nil
+							- case td_value.class.to_s
+							-	when "String"
+								- td_classes << options[:string_td_class]
+							- when "Numeric"
+								- td_classes << options[:numeric_td_class]
+							- when "Time", "Date", "DateTime","ActiveSupport::TimeWithZone"
+								- td_value = options[:format_date].call(td_value) if options[:format_date]
+								- td_classes << options[:date_td_class]
+							
+							%td{:class => td_classes}
+								- if options[:cell_format] && options[:cell_format][col]
+									- if obj.respond_to?(col)
+										= options[:cell_format][col].call(obj,obj.send(col),idx+1)
+									- else
+										= options[:cell_format][col].call(obj,td_value,idx+1)
+								- else
+									= td_value
+
+					- if show_action_links && options[:actions] == :right
+						%td{:class => "#{options[:td_class]} actions"}
+							- [:show_action, :edit_action, :destroy_action].each do |obj_action|
+								= options[obj_action].call(obj) if options[obj_action]
+								
+	- if [:both,:bottom].include?(options[:paginator_pos]) && !options[:paginator].nil? && objects.num_pages != 1
+		.tablegrid_paginator_clear
+		.tablegrid_paginator_bottom
+			= options[:paginator]
+		.tablegrid_paginator_clear
+
+					
+ 			
+			
