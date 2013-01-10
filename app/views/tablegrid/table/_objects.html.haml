@@ -51,9 +51,9 @@
 							%td{:class => td_classes}
 								- if options[:cell_format] && options[:cell_format][col]
 									- if obj.respond_to?(col)
-										= options[:cell_format][col].call(obj,obj.send(col),idx+1)
+										= raw options[:cell_format][col].call(obj,obj.send(col),idx+1)
 									- else
-										= options[:cell_format][col].call(obj,td_value,idx+1)
+										= raw options[:cell_format][col].call(obj,td_value,idx+1)
 								- else
 									= td_value
 
