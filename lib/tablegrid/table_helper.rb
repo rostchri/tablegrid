@@ -47,7 +47,7 @@ module TableHelper
       end
 
       # set some instance-variables according to option-values
-      set :id           => options.delete(:id),
+      set :id           => options[:id],
           :viewcontext  => options.delete(:viewcontext),
           :options      => options,
           :objects      => objects
