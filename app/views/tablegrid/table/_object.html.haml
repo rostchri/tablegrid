@@ -16,21 +16,22 @@
 				- else
 					- td_value = object.send(col)
 				- rel = options[:clickable_path].call(col,object) unless options[:clickable_path].nil?
-				%tr{:class => tr_classes, :rel => rel}
-					- heading_classes = [options[:heading_class], options[:th_class]]
-					- heading_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,object).nil? || options[:clickable_path].call(col,object).empty?
-					- colname = options[:objects_class].nil? ? col.to_s.capitalize.humanize : options[:objects_class].human_attribute_name(col)
-					- colname = "#{colname}:" unless colname.empty?
-					%th{:class => heading_classes}= !options[:i18n] || colname
-					- td_classes  = [options[:td_class], col]
-					- td_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,object).nil? || options[:clickable_path].call(col,object).empty?
-					- td_classes  << ((idx + 1).odd? ? 'odd' : 'even') if options[:even_odd]
-					- case td_value.class.to_s
-					- when "String"
-						- td_classes << options[:string_td_class]
-					- when "Numeric"
-						- td_classes << options[:numeric_td_class]
-					- when "Time", "Date", "DateTime","ActiveSupport::TimeWithZone"
-						- td_value = options[:format_date].call(td_value) if options[:format_date]
-						- td_classes << options[:date_td_class]
-					%td{:class => td_classes, :id => "#{object.class.to_s.underscore}_#{object.id}_#{col}" }= td_value
+				- unless td_value.empty?
+					%tr{:class => tr_classes, :rel => rel}
+						- heading_classes = [options[:heading_class], options[:th_class]]
+						- heading_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,object).nil? || options[:clickable_path].call(col,object).empty?
+						- colname = options[:objects_class].nil? ? col.to_s.capitalize.humanize : options[:objects_class].human_attribute_name(col)
+						- colname = "#{colname}:" unless colname.empty?
+						%th{:class => heading_classes}= !options[:i18n] || colname
+						- td_classes  = [options[:td_class], col]
+						- td_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,object).nil? || options[:clickable_path].call(col,object).empty?
+						- td_classes  << ((idx + 1).odd? ? 'odd' : 'even') if options[:even_odd]
+						- case td_value.class.to_s
+						- when "String"
+							- td_classes << options[:string_td_class]
+						- when "Numeric"
+							- td_classes << options[:numeric_td_class]
+						- when "Time", "Date", "DateTime","ActiveSupport::TimeWithZone"
+							- td_value = options[:format_date].call(td_value) if options[:format_date]
+							- td_classes << options[:date_td_class]
+						%td{:class => td_classes, :id => "#{object.class.to_s.underscore}_#{object.id}_#{col}" }= td_value
