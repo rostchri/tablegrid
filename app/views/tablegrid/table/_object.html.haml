@@ -16,7 +16,7 @@
 				- else
 					- td_value = object.send(col)
 				- rel = options[:clickable_path].call(col,object) unless options[:clickable_path].nil?
-				- unless td_value.empty?
+				- unless "#{td_value}".empty?
 					%tr{:class => tr_classes, :rel => rel}
 						- heading_classes = [options[:heading_class], options[:th_class]]
 						- heading_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,object).nil? || options[:clickable_path].call(col,object).empty?
