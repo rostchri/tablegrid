@@ -19,7 +19,9 @@
 				%tr{:class => tr_classes, :rel => rel}
 					- heading_classes = [options[:heading_class], options[:th_class]]
 					- heading_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,object).nil? || options[:clickable_path].call(col,object).empty?
-					%th{:class => heading_classes}= !options[:i18n] || options[:objects_class].nil? ? "#{col.to_s.capitalize.humanize}:" : "#{options[:objects_class].human_attribute_name(col)}:"
+					- colname = options[:objects_class].nil? ? col.to_s.capitalize.humanize : options[:objects_class].human_attribute_name(col)
+					- colname = "#{colname}:" unless colname.empty?
+					%th{:class => heading_classes}= !options[:i18n] || colname
 					- td_classes  = [options[:td_class], col]
 					- td_classes << "clickable" unless options[:clickable_path].nil? || options[:clickable_path].call(col,object).nil? || options[:clickable_path].call(col,object).empty?
 					- td_classes  << ((idx + 1).odd? ? 'odd' : 'even') if options[:even_odd]
