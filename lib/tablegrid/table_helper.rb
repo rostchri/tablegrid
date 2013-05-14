@@ -23,6 +23,7 @@ module TableHelper
                                        :even_odd           => Tablegrid.config.even_odd,
                                        :paginator_pos      => Tablegrid.config.paginator_pos,
                                        :actions            => Tablegrid.config.actions,
+                                       :hoveractions       => Tablegrid.config.hoveractions,
                                        :i18n               => Tablegrid.config.i18n,
                                        :table_id           => "tablegrid_#{objects.first.class.to_s.underscore.pluralize}",       # CSS ID of the table
                                        :heading_id         => "tablegrid_head_#{objects.first.class.to_s.underscore.pluralize}",  # CSS class for all TH elements

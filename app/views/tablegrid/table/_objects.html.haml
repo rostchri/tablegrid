@@ -27,6 +27,7 @@
 			- objects.each_with_index do |obj,idx|
 				- tr_classes = [ options[:tr_class] ]
 				- tr_classes << ((idx + 1).odd? ? 'odd' : 'even') if options[:even_odd]
+				- tr_classes << 'hover-grp' if options[:hoveractions]
 				- rel = options[:clickable_path].call(obj) unless options[:clickable_path].nil?
 				%tr{:class => tr_classes, :id => "#{obj.class.to_s.underscore}_#{obj.id}", :rel => rel}
 					- if show_action_links && options[:actions] == :left
